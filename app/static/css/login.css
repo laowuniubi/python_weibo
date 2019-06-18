@@ -1,0 +1,32 @@
+*{
+    margin:0;
+    padding:0;
+}
+body{
+    font: 14px/24px 'Microsoft YaHei';
+    width:100%;
+    height:100%;
+}
+
+.background{
+    width:228px;
+    height:293px;
+    margin:0 auto;
+    background: url("../images/background.jpg");
+    background-size:cover;
+}
+.contain{
+    margin-top:150px;
+    padding-top: 70px;
+    margin-bottom: 50px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+.a{
+    width:40px;
+    height:30px;
+    border-radius:4px;
+    margin: 0 auto;
+    color:red;
+    background: pink;
+}

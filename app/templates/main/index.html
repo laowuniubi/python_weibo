@@ -1,0 +1,62 @@
+{% extends 'common/base.html' %}
+{% from 'common/macro.html' import pagination_show%}
+{% block title %}
+
+    首页
+{% endblock %}
+
+{% block page_content %}
+    {% for message in get_flashed_messages() %}
+            <div class="alert alert-warning alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <strong>{{ message }}</strong>
+            </div>
+    {% endfor %}
+    {{ wtf.quick_form(form) }}
+    {% for post in posts %}
+        <div class="media">
+            <div class="media-left media-middle">
+                <a href="#">
+                    <img class="media-object" src="{{ url_for('static',filename='upload/'+post.user.icon) }}" alt="用户头像">
+                </a>
+            </div>
+            <div class="media-body">
+                <div style="float: right">{{ moment(post.timestamp).fromNow() }}</div>
+                <h4 class="media-heading">{{ post.title }}</h4>
+                {{ post.content }}
+                ...
+            </div>
+                {% if current_user.is_authenticated %}
+                    <div url="{{ url_for('posts.collect',pid=post.id) }}" class="collect" style="cursor: pointer">
+                        {% if current_user.is_favorite(post.id) %}
+                            取消收藏
+                        {% else %}
+                            收藏
+                        {% endif %}
+                    </div>
+                {% endif %}
+        </div>
+    {% endfor %}
+    {{ pagination.links }}
+    {# {{ pagination_show(pagination,'main.index') }} #}
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script type="text/javascript">
+        $(function () {
+            $('.collect').click(function () {
+                _this = this
+                $.get($(this).attr('url'),function () {
+                    if($(_this).text() == '收藏'){
+                        $(_this).text('取消收藏')
+                    }else{
+                        $(_this).text('收藏')
+
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}
